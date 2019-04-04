@@ -74,6 +74,10 @@ Type_handler_interval_DDhhmmssff type_handler_interval_DDhhmmssff;
 class Type_collection_std: public Type_collection
 {
 public:
+  bool init(Type_handler_data *data) override
+  {
+    return false;
+  }
   const Type_handler *handler_by_name(const LEX_CSTRING &name) const override
   {
     return NULL;
@@ -200,7 +204,7 @@ public:
       c->add(geom, &type_handler_null,        geom) ||
       c->add(geom, &type_handler_long_blob,   &type_handler_long_blob);
   }
-  bool init(Type_handler_data *data) const
+  bool init(Type_handler_data *data) override
   {
 #ifndef DBUG_OFF
     /*
@@ -267,8 +271,12 @@ const Type_collection *Type_handler_geometry::type_collection() const
 #endif
 
 
+extern Type_collection *type_collection_inet_ptr;
+
 bool Type_handler_data::init()
 {
+  if (type_collection_inet_ptr->init(this))
+    return true;
 #ifdef HAVE_SPATIAL
   return type_collection_geometry.init(this);
 #endif
@@ -279,9 +287,11 @@ bool Type_handler_data::init()
 const Type_handler *
 Type_handler::handler_by_name(const LEX_CSTRING &name)
 {
+  const Type_handler *ha;
+  if ((ha= type_collection_inet_ptr->handler_by_name(name)))
+    return ha;
 #ifdef HAVE_SPATIAL
-  const Type_handler *ha= type_collection_geometry.handler_by_name(name);
-  if (ha)
+  if ((ha=  type_collection_geometry.handler_by_name(name)))
     return ha;
 #endif
   return NULL;
@@ -2048,6 +2058,8 @@ Type_handler::get_handler_by_field_type(enum_field_types type)
 const Type_handler *
 Type_handler::get_handler_by_real_type(enum_field_types type)
 {
+  if (type == 128)
+    return handler_by_name(Lex_cstring("inet6", 5));
   switch (type) {
   case MYSQL_TYPE_DECIMAL:     return &type_handler_olddecimal;
   case MYSQL_TYPE_NEWDECIMAL:  return &type_handler_newdecimal;

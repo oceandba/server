@@ -3715,7 +3715,6 @@ public:
   virtual Item *create_typecast_item(THD *thd, Item *item,
                                      const Type_cast_attributes &attr) const
   {
-    DBUG_ASSERT(0);
     return NULL;
   }
   virtual Item_copy *create_item_copy(THD *thd, Item *item) const;
@@ -6755,6 +6754,7 @@ class Type_collection
 {
 public:
   virtual ~Type_collection() {}
+  virtual bool init(class Type_handler_data *data)= 0;
   virtual const Type_handler *handler_by_name(const LEX_CSTRING &name) const= 0;
   virtual const Type_handler *aggregate_for_result(const Type_handler *h1,
                                                    const Type_handler *h2)
