@@ -1,4 +1,8 @@
 --disable_query_log
+if (`SELECT $CURSOR_PROTOCOL > 0`)
+{
+   --skip Incompatible with cursor-protocol
+}
 source include/have_innodb.inc;
 
 set @@session.time_zone='+00:00';
