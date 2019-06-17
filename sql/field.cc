@@ -8971,6 +8971,7 @@ err_exit:
 }
 
 
+
 bool Field_geom::is_equal(const Column_definition &new_field) const
 {
   /*
