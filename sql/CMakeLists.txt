@@ -427,7 +427,9 @@ IF(INSTALL_LAYOUT STREQUAL "STANDALONE")
 
 # Copy db.opt into data/test/
 SET(DBOPT_FILE ${CMAKE_SOURCE_DIR}/support-files/db.opt ) 
+SET(ENTERPRISE_CNF_FILE ${CMAKE_SOURCE_DIR}/support-files/rpm/mariadb-enterprise.cnf)
 INSTALL(FILES ${DBOPT_FILE} DESTINATION data/test COMPONENT DataFiles)
+INSTALL(FILES ${ENTERPRISE_CNF_FILE} DESTINATION etc/ COMPONENT Common)
 
 # Install initial database on windows
 IF(WIN32 AND TARGET mysqld AND NOT CMAKE_CROSSCOMPILING)
