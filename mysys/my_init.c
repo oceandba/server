@@ -36,8 +36,6 @@ static my_bool win32_init_tcp_ip();
 #define my_win_init()
 #endif
 
-extern pthread_key(struct st_my_thread_var*, THR_KEY_mysys);
-
 #define SCALE_SEC       100
 #define SCALE_USEC      10000
 
@@ -249,10 +247,8 @@ Voluntary context switches %ld, Involuntary context switches %ld\n",
   if (have_tcpip)
     WSACleanup();
 #endif /* __WIN__ */
- 
-  /* At very last, delete mysys key, it is used everywhere including DBUG */
-  pthread_key_delete(THR_KEY_mysys);
-  my_init_done= my_thr_key_mysys_exists= 0;
+
+  my_init_done= 0;
 } /* my_end */
 
 #ifdef DBUG_ASSERT_EXISTS
