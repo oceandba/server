@@ -6028,7 +6028,7 @@ buf_page_io_complete(buf_page_t* bpage, bool dblwr, bool evict)
 			was written as garbage before MySQL 4.1.1,
 			which did not support innodb_file_per_table. */
 
-			ib::error() << "Space id and page no stored in "
+			ib::fatal() << "Space id and page no stored in "
 				"the page, read in are "
 				<< page_id_t(read_space_id, read_page_no)
 				<< ", should be " << bpage->id;
