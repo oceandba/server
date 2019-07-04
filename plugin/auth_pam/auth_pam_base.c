@@ -53,12 +53,8 @@ char *strndup(const char *from, size_t length)
 }
 #endif
 
-#ifndef DBUG_OFF
 static char pam_debug = 0;
 #define PAM_DEBUG(X)   do { if (pam_debug) { fprintf X; } } while(0)
-#else
-#define PAM_DEBUG(X)   /* no-op */
-#endif
 
 static char winbind_hack = 0;
 

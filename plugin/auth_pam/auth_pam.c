@@ -23,12 +23,8 @@
 #include "auth_pam_tool.h"
 #include <my_global.h>
 
-#ifndef DBUG_OFF
 static char pam_debug = 0;
 #define PAM_DEBUG(X)   do { if (pam_debug) { fprintf X; } } while(0)
-#else
-#define PAM_DEBUG(X)   /* no-op */
-#endif
 
 static char winbind_hack = 0;
 
@@ -112,11 +108,7 @@ static int pam_auth(MYSQL_PLUGIN_VIO *vio, MYSQL_SERVER_AUTH_INFO *info)
   PAM_DEBUG((stderr, "PAM: parent sends user data [%s], [%s].\n",
                info->user_name, info->auth_string));
 
-#ifndef DBUG_OFF
   field= pam_debug ? 1 : 0;
-#else
-  field= 0;
-#endif
   field|= winbind_hack ? 2 : 0;
 
   if (write(p_to_c[1], &field, 1) != 1 ||

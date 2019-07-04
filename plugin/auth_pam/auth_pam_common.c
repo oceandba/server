@@ -40,17 +40,13 @@ static MYSQL_SYSVAR_BOOL(winbind_workaround, winbind_hack, PLUGIN_VAR_OPCMDARG,
        "Compare usernames case insensitively to work around pam_winbind "
        "unconditional username lowercasing", NULL, NULL, 0);
 
-#ifndef DBUG_OFF
 static MYSQL_SYSVAR_BOOL(debug, pam_debug, PLUGIN_VAR_OPCMDARG,
-       "Log all PAM activity", NULL, NULL, 0);
-#endif
+       "Log all PAM activity", NULL, NULL, 1);
 
 
 static struct st_mysql_sys_var* vars[] = {
   MYSQL_SYSVAR(use_cleartext_plugin),
   MYSQL_SYSVAR(winbind_workaround),
-#ifndef DBUG_OFF
   MYSQL_SYSVAR(debug),
-#endif
   NULL
 };
