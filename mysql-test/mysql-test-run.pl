@@ -169,39 +169,7 @@ our $opt_vs_config = $ENV{'MTR_VS_CONFIG'};
 
 my @DEFAULT_SUITES= qw(
     main-
-    archive-
-    binlog-
-    binlog_encryption-
-    csv-
-    compat/oracle-
-    compat/mssql-
-    encryption-
-    federated-
-    funcs_1-
-    funcs_2-
-    gcol-
-    handler-
-    heap-
-    innodb-
-    innodb_fts-
-    innodb_gis-
-    innodb_zip-
-    json-
-    maria-
-    mariabackup-
-    multi_source-
-    optimizer_unfixed_bugs-
-    parts-
-    perfschema-
     plugins-
-    roles-
-    rpl-
-    sys_vars-
-    sql_sequence-
-    unit-
-    vcol-
-    versioning-
-    period-
   );
 my $opt_suites;
 
