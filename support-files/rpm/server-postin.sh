@@ -48,19 +48,13 @@ if [ $1 = 1 ] ; then
      test -x $ldconfig && $ldconfig
   done
 
-  # Change permissions so that the user that will run the MySQL daemon
-  # owns all database files.
-  chown -R %{mysqld_user}:%{mysqld_group} $datadir
-
   if [ ! -e $datadir/mysql ]; then
-    # Create data directory
-    mkdir -p $datadir
-
     # Initiate databases
     %{_bindir}/mysql_install_db --rpm --user=%{mysqld_user}
   fi
 
-  # Change permissions again to fix any new files.
+  # Change permissions so that the user that will run the MySQL daemon
+  # owns all database files.
   chown -R %{mysqld_user}:%{mysqld_group} $datadir
 
   # Fix permissions for the permission database so that only the user
