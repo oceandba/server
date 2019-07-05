@@ -8827,7 +8827,10 @@ static bool show_global_privileges(THD *thd, ACL_USER_BASE *acl_entry,
     want_access= ((ACL_ROLE *)acl_entry)->initial_role_access;
   else
     want_access= acl_entry->access;
-  if (test_all_bits(want_access, (GLOBAL_ACLS & ~ GRANT_ACL)))
+  // In `10.2` there is no `DELETE_HISTORY_ACL` flag so we have to enable showing
+  // right string in case of `10.2` datadir
+  if (test_all_bits(want_access, (GLOBAL_ACLS & ~ GRANT_ACL)) ||
+      test_all_bits(want_access, (GLOBAL_ACLS & ~ GRANT_ACL & ~DELETE_HISTORY_ACL)))
     global.append(STRING_WITH_LEN("ALL PRIVILEGES"));
   else if (!(want_access & ~GRANT_ACL))
     global.append(STRING_WITH_LEN("USAGE"));
