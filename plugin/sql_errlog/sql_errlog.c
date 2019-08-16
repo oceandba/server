@@ -76,6 +76,13 @@ static struct st_mysql_sys_var* vars[] = {
     NULL
 };
 
+/* Status variables for SHOW STATUS */
+
+static struct st_mysql_show_var sql_errlog_status[]=
+{
+  {"sql_errors", (char *)&count, SHOW_LONG},
+  {0,0,0}
+};
 
 static void log_sql_errors(MYSQL_THD thd __attribute__((unused)),
                            unsigned int event_class __attribute__((unused)),
@@ -155,7 +162,7 @@ maria_declare_plugin(sql_errlog)
   sql_error_log_init,
   sql_error_log_deinit,
   0x0100,
-  NULL,
+  sql_errlog_status,
   vars,
   "1.0",
   MariaDB_PLUGIN_MATURITY_STABLE
